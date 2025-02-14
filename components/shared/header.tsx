@@ -1,0 +1,52 @@
+import { User, ShoppingCart, Search, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Button, Input } from "../ui";
+import { Container } from "./container";
+
+export function Header() {
+  return (
+    <header className="border-b py-8">
+      <Container className="flex justify-between gap-2">
+        <div className="flex gap-2 shrink-0">
+          <div className="flex items-center gap-4 ">
+            <Image width={35} height={35} src="/logo.png" alt="logo" />
+            <div>
+              <h1 className="uppercase font-black leading-none text-2xl">
+                Next Pizza
+              </h1>
+              <p className="leading-none text-gray-400">вкусней уже некуда</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative mx-5 w-full">
+          <Search
+            size={16}
+            className="absolute top-1/2 left-3 -translate-y-1/2"
+          />
+          <Input
+            className="bg-gray-100 border-0 pl-10"
+            placeholder="Поиск пиццы..."
+          />
+        </div>
+
+        <div className="flex gap-2">
+          <Button variant="outline" className="flex gap-2">
+            <User size={16} />
+            Войти
+          </Button>
+          <Button className="group relative">
+            <b>520 ₽</b>
+            <span className="h-full w-[2px] bg-white/25 mx-3" />
+            <div className="flex items-center duration-200 gap-1 group-hover:opacity-0">
+              <ShoppingCart size={16} />
+              <b>3</b>
+            </div>
+
+            <ArrowRight className="opacity-0 absolute top-1/2 right-5 -translate-y-1/2 -translate-x-3 duration-200 group-hover:opacity-100 group-hover:translate-x-0" />
+          </Button>
+        </div>
+      </Container>
+    </header>
+  );
+}

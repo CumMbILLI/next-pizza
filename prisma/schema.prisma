@@ -1,0 +1,103 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id Int @id @default(autoincrement())
+
+    fullName String
+    email    String @unique
+    password String
+
+    cart Cart?
+
+    createAt  DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    cartId    Int
+}
+
+model Cart {
+    id Int @id @default(autoincrement())
+
+    user   User? @relation(fields: [userId], references: [id])
+    userId Int?  @unique
+
+    tokenId String
+
+    totalAmount Int @default(0)
+
+    createAt  DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    CartItem  CartItem[]
+}
+
+model CartItem {
+    id Int @id @default(autoincrement())
+
+    quantity Int
+
+    variationProduct   VariationProduct @relation(fields: [variationProductId], references: [id])
+    variationProductId Int
+
+    cart   Cart @relation(fields: [cartId], references: [id])
+    cartId Int
+
+    indigriends Indigriend[]
+}
+
+model Category {
+    id       Int       @id @default(autoincrement())
+    name     String    @unique
+    products Product[]
+
+    quantity    Int
+    productSize Int?
+    productType String?
+}
+
+model Product {
+    id Int @id @default(autoincrement())
+
+    name     String
+    imageUrl String
+
+    indigriends Indigriend[]
+    variants    VariationProduct[]
+
+    Category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
+
+    createAt  DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model VariationProduct {
+    id Int @id @default(autoincrement())
+
+    price       Int
+    size        Int?
+    productType Int?
+    Product     Product?   @relation(fields: [productId], references: [id])
+    productId   Int?
+    CartItem    CartItem[]
+}
+
+model Indigriend {
+    id Int @id @default(autoincrement())
+
+    name     String
+    price    Int
+    ImageUrl String
+
+    products Product[]
+
+    createAt   DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+    CartItem   CartItem? @relation(fields: [cartItemId], references: [id])
+    cartItemId Int?
+}

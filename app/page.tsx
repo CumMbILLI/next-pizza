@@ -1,101 +1,157 @@
-import Image from "next/image";
+import { Container, Filters, Title } from "@/components/shared";
+import { Categories } from "@/components/shared/categories";
+import { ProductsGroupList } from "@/components/shared/products-group-list";
+import { SortPopup } from "@/components/shared/sort-popup";
+
+const MOCK_PRODUCTS_PIZZA = [
+  {
+    id: 1,
+    imageUrl: "/pizza/pizza-1.png",
+    name: "Сырный цыпленок",
+    description:
+      "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
+    price: 395,
+  },
+  {
+    id: 2,
+    imageUrl: "/pizza/pizza-1.png",
+    name: "Диабло",
+    description:
+      "Острая чоризо, острый перец халапеньо, соус барбекю, митболы, томаты, сладкий перец, красный лук, моцарелла",
+    price: 449,
+  },
+  {
+    id: 3,
+    imageUrl: "/pizza/pizza-1.png",
+    name: "Чизбургер-пицца",
+    description:
+      "Мясной соус болоньезе, соус бургер, соленые огурчики, томаты, красный лук, моцарелла",
+    price: 399,
+  },
+  {
+    id: 4,
+    imageUrl: "/pizza/pizza-1.png",
+    name: "Кола-барбекю",
+    description:
+      "Пряная говядина, пикантная пепперони, острые колбаски чоризо, соус кола-барбекю, моцарелла и фирменный томатный соус",
+    price: 589,
+  },
+];
+
+const MOCK_PRODUCTS_COMBOBOX = [
+  {
+    id: 1,
+    imageUrl: "/combo/combo-1.avif",
+    name: "Додо Бокс",
+    description:
+      "Набор юного космонавта, который легко настроить по вкусу ребенка: две закуски и напиток на выбор. В каждом комбо игрушка, а в нашем приложении игра-компаньон",
+    price: 479,
+  },
+  {
+    id: 2,
+    imageUrl: "/combo/combo-1.avif",
+    name: "Чикен бокс",
+    description:
+      "Картошка без курицы, как курица без картошки — лучше вместе. Выбирайте куриные наггетсы, кусочки или крылья барбекю и заказывайте сразу в комбо с пряной картошечкой и соусом.",
+    price: 309,
+  },
+  {
+    id: 3,
+    imageUrl: "/combo/combo-1.avif",
+    name: "Завтрак на двоих",
+    description:
+      "Горячий завтрак для двоих. 2 любые закуски и 2 напитка на выбор",
+    price: 499,
+  },
+  {
+    id: 4,
+    imageUrl: "/combo/combo-1.avif",
+    name: "Четыре в одном",
+    description:
+      "Если хочется всего понемногу. Маленькая пицца, закуска, напиток и соус. Цена комбо зависит от выбранных продуктов и может быть увеличена",
+    price: 739,
+  },
+];
+
+const MOCK_PRODUCTS_BREAKFAST = [
+  {
+    id: 1,
+    imageUrl: "/breakfast/breakfast-1.avif",
+    name: "Омлет с томатами в пите",
+    description:
+      "Легкий и питательный завтрак: омлет из печи с томатами и моцареллой в пшеничной пите. Удобно брать с собой",
+    price: 179,
+  },
+  {
+    id: 2,
+    imageUrl: "/breakfast/breakfast-1.avif",
+    name: "Омлет с беконом в пите",
+    description:
+      "Горячий сытный омлет с поджаристой корочкой, бекон, моцарелла и томаты в пшеничной пите. Удобно взять с собой",
+    price: 219,
+  },
+  {
+    id: 3,
+    imageUrl: "/breakfast/breakfast-1.avif",
+    name: "Омлет с ветчиной и грибами в пите",
+    description:
+      "Горячий сытный омлет с поджаристой корочкой, ветчина, шампиньоны и моцарелла в пшеничной пите. Удобно взять с собой",
+    price: 219,
+  },
+  {
+    id: 4,
+    imageUrl: "/breakfast/breakfast-1.avif",
+    name: "Омлет с пепперони в пите",
+    description:
+      "Для тех, кто не пропускает завтраки — омлет с поджаристой корочкой, пикантная пепперони, томаты и моцарелла в пшеничной пите. Удобно взять с собой",
+    price: 219,
+  },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <Container className="mt-8">
+        <Title size="lg">Все пиццы</Title>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <div></div>
+      </Container>
+
+      <div className="sticky top-0 z-10 bg-white">
+        <Container>
+          <div className="flex justify-between items-center mt-3">
+            <Categories />
+            <SortPopup />
+          </div>
+        </Container>
+      </div>
+
+      <Container className="flex mt-9 gap-20 pb-12">
+        <Filters />
+
+        <section className="flex-1">
+          <ProductsGroupList
+            title="Пиццы"
+            name="pizza"
+            products={MOCK_PRODUCTS_PIZZA}
+            categoryId={0}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+
+          <ProductsGroupList
+            title="Комбо"
+            name="combo"
+            products={MOCK_PRODUCTS_COMBOBOX}
+            categoryId={1}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+
+          <ProductsGroupList
+            title="Завтрак"
+            name="breakfast"
+            products={MOCK_PRODUCTS_BREAKFAST}
+            categoryId={2}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </section>
+      </Container>
+    </>
   );
 }
