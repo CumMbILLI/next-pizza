@@ -1,13 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useClickAway } from "react-use";
-import { PlusIcon, Search } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+import { useClickAway, useDebounce } from "react-use";
 
+import { Api } from "@/services/api-client";
 import { cn } from "@/lib/utils";
-import { Button, Input } from "../ui";
+import { Product } from "@prisma/client";
+
+import { SearchResultsList } from "./search-results/search-results-list";
+import { Input } from "../ui";
+import { Search } from "lucide-react";
 
 interface Props {
   placeholder?: string;
@@ -17,10 +19,27 @@ interface Props {
 export function SearchInput({ placeholder = "Поиск", className }: Props) {
   const ref = useRef(null);
   const [focused, setFocused] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
 
   useClickAway(ref, () => {
     setFocused(false);
   });
+
+  useDebounce(
+    () => {
+      Api.products
+        .getSearchProduct(searchValue)
+        .then((res) => setSearchResults(res));
+    },
+    250,
+    [searchValue]
+  );
+
+  const handleResetSearch = () => {
+    setFocused(false);
+    setSearchValue("");
+  };
 
   return (
     <>
@@ -39,40 +58,18 @@ export function SearchInput({ placeholder = "Поиск", className }: Props) {
           className="absolute top-1/2 left-4 -translate-y-1/2"
         />
         <Input
-          className="bg-gray-100 border-0 pl-10"
+          value={searchValue}
           placeholder={placeholder}
           onFocus={() => setFocused(true)}
+          className="bg-gray-100 border-0 pl-10"
+          onChange={(e) => setSearchValue(e.target.value)}
         />
 
-        <div
-          className={cn(
-            "absolute top-14 left-0 w-full invisible duration-200 opacity-0",
-            {
-              "visible top-10 opacity-100": focused,
-            }
-          )}
-        >
-          <Link
-            href="/"
-            className={cn(
-              "flex items-center bg-white rounded-xl px-6 py-2 duration-100 hover:bg-secondary"
-            )}
-          >
-            <Image
-              src="/pizza/pizza-1.avif"
-              alt="logo"
-              width={48}
-              height={48}
-            />
-            <div className="flex justify-between items-center w-full ml-2">
-              <p>Сырный цыпленок</p>
-              <Button className="gap-1">
-                <PlusIcon size={16} />
-                Добавить
-              </Button>
-            </div>
-          </Link>
-        </div>
+        <SearchResultsList
+          results={searchResults}
+          inputFocused={focused}
+          handleResetSearch={handleResetSearch}
+        />
       </div>
     </>
   );

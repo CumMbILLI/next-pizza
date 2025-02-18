@@ -22,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.className}  antialiased w-svw bg-[#FFBF9B] p-4`}
+        className={`${nunito.className}  antialiased w-svw min-h-svh bg-[#FFBF9B] p-4`}
       >
-        <main className="bg-white rounded-3xl shadow-lg">
+        <main className="bg-white rounded-3xl shadow-lg h-full">
           <Header />
 
           {children}
