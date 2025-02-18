@@ -1,7 +1,8 @@
-import { User, ShoppingCart, Search, ArrowRight } from "lucide-react";
+import { User, ShoppingCart, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { Button, Input } from "../ui";
+import { Button } from "../ui";
 import { Container } from "./container";
+import { SearchInput } from "./search-input";
 
 export function Header() {
   return (
@@ -19,16 +20,7 @@ export function Header() {
           </div>
         </div>
 
-        <div className="relative mx-5 w-full">
-          <Search
-            size={16}
-            className="absolute top-1/2 left-3 -translate-y-1/2"
-          />
-          <Input
-            className="bg-gray-100 border-0 pl-10"
-            placeholder="Поиск пиццы..."
-          />
-        </div>
+        <SearchInput />
 
         <div className="flex gap-2">
           <Button variant="outline" className="flex gap-2">

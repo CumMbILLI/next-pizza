@@ -6,7 +6,7 @@ import { SortPopup } from "@/components/shared/sort-popup";
 const MOCK_PRODUCTS_PIZZA = [
   {
     id: 1,
-    imageUrl: "/pizza/pizza-1.png",
+    imageUrl: "/pizza/pizza-1.avif",
     name: "Сырный цыпленок",
     description:
       "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
@@ -14,7 +14,7 @@ const MOCK_PRODUCTS_PIZZA = [
   },
   {
     id: 2,
-    imageUrl: "/pizza/pizza-1.png",
+    imageUrl: "/pizza/pizza-1.avif",
     name: "Диабло",
     description:
       "Острая чоризо, острый перец халапеньо, соус барбекю, митболы, томаты, сладкий перец, красный лук, моцарелла",
@@ -22,7 +22,7 @@ const MOCK_PRODUCTS_PIZZA = [
   },
   {
     id: 3,
-    imageUrl: "/pizza/pizza-1.png",
+    imageUrl: "/pizza/pizza-1.avif",
     name: "Чизбургер-пицца",
     description:
       "Мясной соус болоньезе, соус бургер, соленые огурчики, томаты, красный лук, моцарелла",
@@ -30,7 +30,7 @@ const MOCK_PRODUCTS_PIZZA = [
   },
   {
     id: 4,
-    imageUrl: "/pizza/pizza-1.png",
+    imageUrl: "/pizza/pizza-1.avif",
     name: "Кола-барбекю",
     description:
       "Пряная говядина, пикантная пепперони, острые колбаски чоризо, соус кола-барбекю, моцарелла и фирменный томатный соус",
