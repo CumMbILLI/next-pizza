@@ -3,13 +3,14 @@ import Image from "next/image";
 import { Button } from "../ui";
 import { Container } from "./container";
 import { SearchInput } from "./search-input";
+import Link from "next/link";
 
 export function Header() {
   return (
     <header className="border-b py-8">
       <Container className="flex justify-between gap-2">
         <div className="flex gap-2 shrink-0">
-          <div className="flex items-center gap-4 ">
+          <Link href="/" className="flex items-center gap-4">
             <Image width={35} height={35} src="/logo.png" alt="logo" />
             <div>
               <h1 className="uppercase font-black leading-none text-2xl">
@@ -17,7 +18,7 @@ export function Header() {
               </h1>
               <p className="leading-none text-gray-400">вкусней уже некуда</p>
             </div>
-          </div>
+          </Link>
         </div>
 
         <SearchInput />

@@ -2,43 +2,40 @@
 
 import { ChangeEvent, useState } from "react";
 import { Input } from "../ui";
-import { FilterCheckbox, FilterCheckboxProps } from "./filter-checkbox";
+import { CheckboxComponent } from "./checkbox-component";
 import { Title } from "./title";
 
-type Item = FilterCheckboxProps;
-
-interface Props {
+interface Props<T> {
   title: string;
-  items: Item[];
-  defaultItems?: Item[];
+  items: T[];
   limit?: number;
+  selected?: Set<number | string>;
   searchInputPlaceholder?: string;
+  isShowSearchInput?: boolean;
+  onChangeCheckbox?: (value: number | string) => void;
   className?: string;
-  selectedIds?: Set<string>;
-  onClickCheckbox?: (value: string) => void;
-  loading?: boolean;
-  name?: string;
 }
 
-export function CheckboxGroup({
+export function CheckboxGroup<T extends { id: number | string; name: string }>({
   title,
   items,
-  limit = 5,
+  limit,
   searchInputPlaceholder = "Поиск...",
+  isShowSearchInput = false,
   className,
-  selectedIds,
-  onClickCheckbox,
-  loading,
-  name,
-}: Props) {
+  selected,
+  onChangeCheckbox,
+}: Props<T>) {
   const [searchValue, setSearchValue] = useState("");
-  const [showAll, setShowAll] = useState(false);
+  const [isShowAll, setIsShowAll] = useState(false);
 
-  const list = showAll
+  const list = isShowAll
     ? items.filter((item) =>
-        item.text?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+        item.name?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
       )
-    : items.slice(0, limit);
+    : limit
+    ? items.slice(0, limit)
+    : items;
 
   const onChangeSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -48,7 +45,7 @@ export function CheckboxGroup({
     <div className={className}>
       <Title size="xs">{title}</Title>
 
-      {showAll && (
+      {isShowAll && isShowSearchInput && (
         <Input
           value={searchValue}
           onChange={onChangeSearchInput}
@@ -59,20 +56,21 @@ export function CheckboxGroup({
 
       <ul className="space-y-4 max-h-96 pr-2 overflow-auto scrollbar">
         {list.map((item) => (
-          <FilterCheckbox
-            key={item.value}
+          <CheckboxComponent
+            key={item.name}
             {...item}
-            onCheckedChange={(item) => console.log(item)}
+            checked={selected?.has(String(item.id))}
+            onCheckedChange={onChangeCheckbox}
           />
         ))}
       </ul>
 
-      {items.length > limit && (
+      {limit && items.length > limit && (
         <button
           className="text-primary"
-          onClick={() => setShowAll((prev) => !prev)}
+          onClick={() => setIsShowAll((prev) => !prev)}
         >
-          {showAll ? "Скрыть" : "+ Показать всё"}
+          {isShowAll ? "Скрыть" : "+ Показать всё"}
         </button>
       )}
     </div>

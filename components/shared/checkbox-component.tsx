@@ -3,40 +3,37 @@
 import { ReactNode } from "react";
 import { Checkbox } from "../ui";
 
-export interface FilterCheckboxProps {
-  text?: string;
-  value: string;
+export interface CheckboxComponentProps {
+  id: number | string;
+  value?: string;
   endAdornment?: ReactNode;
-  onCheckedChange?: (checked: boolean) => void;
+  onCheckedChange?: (value: number | string) => void;
   checked?: boolean;
-  name?: string;
+  name: string;
 }
 
-type Props = FilterCheckboxProps;
-
-export function FilterCheckbox({
-  name,
+export function CheckboxComponent({
+  id,
   checked,
   value,
-  text,
+  name,
   endAdornment,
   onCheckedChange,
-}: Props) {
+}: CheckboxComponentProps) {
   return (
     <div className="flex items-center gap-3">
       <Checkbox
-        name={name}
         checked={checked}
         value={value}
         className="rounded-[8px] w-6 h-6"
-        onCheckedChange={onCheckedChange}
-        id={`checkbox-${name}-${String(value)}`}
+        onCheckedChange={() => onCheckedChange?.(String(id))}
+        id={`checkbox-${id}-${String(value)}`}
       />
       <label
-        htmlFor={`checkbox-${name}-${String(value)}`}
+        htmlFor={`checkbox-${id}-${String(value)}`}
         className="leading-none cursor-pointer flex-1"
       >
-        {text}
+        {name}
       </label>
 
       {endAdornment}
