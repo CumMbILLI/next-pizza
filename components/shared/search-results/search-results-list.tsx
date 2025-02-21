@@ -6,14 +6,9 @@ import { Title } from "../title";
 interface Props {
   inputFocused: boolean;
   results: Product[];
-  handleResetSearch: VoidFunction;
 }
 
-export function SearchResultsList({
-  results,
-  inputFocused,
-  handleResetSearch,
-}: Props) {
+export function SearchResultsList({ results, inputFocused }: Props) {
   if (!results.length)
     return (
       <div
@@ -45,7 +40,6 @@ export function SearchResultsList({
           id={product.id}
           name={product.name}
           imageUrl={product.imageUrl}
-          handleResetSearch={handleResetSearch}
         />
       ))}
     </div>

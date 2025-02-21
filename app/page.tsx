@@ -1,7 +1,9 @@
 import { Container, Filters, Title } from "@/components/shared";
 import { Categories } from "@/components/shared/categories";
 import { ProductsGroupList } from "@/components/shared/products-group-list";
+import { FilterSkeleton } from "@/components/shared/skeletons/filter-skeleton";
 import { SortPopup } from "@/components/shared/sort-popup";
+import { Suspense } from "react";
 
 const MOCK_PRODUCTS_PIZZA = [
   {
@@ -127,7 +129,9 @@ export default function Home() {
       </div>
 
       <Container className="flex mt-9 gap-20 pb-12">
-        <Filters />
+        <Suspense fallback={<FilterSkeleton />}>
+          <Filters />
+        </Suspense>
 
         <section className="flex-1">
           <ProductsGroupList

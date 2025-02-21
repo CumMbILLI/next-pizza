@@ -10,6 +10,7 @@ import { Product } from "@prisma/client";
 import { SearchResultsList } from "./search-results/search-results-list";
 import { Input } from "../ui";
 import { Search } from "lucide-react";
+import { useSearchProductsStore } from "@/store/search-products";
 
 interface Props {
   placeholder?: string;
@@ -18,8 +19,13 @@ interface Props {
 
 export function SearchInput({ placeholder = "Поиск", className }: Props) {
   const ref = useRef(null);
-  const [focused, setFocused] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const {
+    value: searchValue,
+    setValue: setSearchValue,
+    focused,
+    setFocused,
+  } = useSearchProductsStore();
+
   const [searchResults, setSearchResults] = useState<Product[]>([]);
 
   useClickAway(ref, () => {
@@ -30,16 +36,12 @@ export function SearchInput({ placeholder = "Поиск", className }: Props) {
     () => {
       Api.products
         .getSearchProduct(searchValue)
-        .then((res) => setSearchResults(res));
+        .then((res) => setSearchResults(res))
+        .catch((error) => console.error(error));
     },
     250,
     [searchValue]
   );
-
-  const handleResetSearch = () => {
-    setFocused(false);
-    setSearchValue("");
-  };
 
   return (
     <>
@@ -65,11 +67,7 @@ export function SearchInput({ placeholder = "Поиск", className }: Props) {
           onChange={(e) => setSearchValue(e.target.value)}
         />
 
-        <SearchResultsList
-          results={searchResults}
-          inputFocused={focused}
-          handleResetSearch={handleResetSearch}
-        />
+        <SearchResultsList results={searchResults} inputFocused={focused} />
       </div>
     </>
   );

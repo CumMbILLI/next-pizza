@@ -2,6 +2,10 @@ import { api } from "./config";
 import { Product } from "@prisma/client";
 import { ApiRoutes } from "./constants";
 
+export const getAll = async () => {
+  return await api.get<Product[]>(ApiRoutes.PRODUCTS).json();
+};
+
 export const getSearchProduct = async (param: string) => {
   return await api
     .get<Product[]>(ApiRoutes.SEARCH_PRODUCTS, {
